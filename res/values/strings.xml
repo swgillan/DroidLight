@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, DroidLightActivity!</string>
     <string name="app_name">DroidLight</string>
+    <string name="on_text">Tap light to turn on</string>
+    <string name="off_text">Tap light to turn off</string>
+    <string name="on_tag">ON</string>
+    <string name="off_tag">OFF</string>
 </resources>

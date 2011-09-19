@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/main">
+        <ImageView android:src="@drawable/lightbulb_off" 
+        android:layout_height="wrap_content" 
+        android:layout_centerInParent="true" 
+        android:layout_width="wrap_content" 
+        android:id="@+id/light" 
+        android:tag="@string/off_tag"/>
+        
+        <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"  
+        android:layout_below="@+id/light" 
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/on_text" 
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:id="@+id/statusText"/>
+    
+    </RelativeLayout>
+
