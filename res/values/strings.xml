@@ -6,4 +6,7 @@
     <string name="off_text">Tap light to turn off</string>
     <string name="on_tag">ON</string>
     <string name="off_tag">OFF</string>
+    <string name="pref_timer_summary">Set the amount of time to keep the light on.</string>
+    <string name="pref_timer_title">Auto-Shutoff Timer</string>
+    <string name="menu_pref_title">Preferences</string>
 </resources>

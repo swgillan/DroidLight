@@ -1,8 +1,12 @@
 package com.semiprotubesurfer.droidlight;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -116,5 +120,23 @@ public class DroidLightActivity extends Activity {
     	 * identify of the light was on or off at the time.
     	 */
 		return mLight.getTag();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.preferences:
+    		startActivity(new Intent(getApplicationContext(), Preferences.class));
+    		return true;
+    	default:
+            return super.onOptionsItemSelected(item);
+    	}
     }
 }

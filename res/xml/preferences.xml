@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<EditTextPreference android:defaultValue="10"
+		android:summary="@string/pref_timer_summary"
+		android:title="@string/pref_timer_title" 
+		android:key="pref_shutoff_delay"
+		android:inputType="numberDecimal"/>    
+</PreferenceScreen>
