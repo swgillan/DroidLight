@@ -1,4 +1,4 @@
-package com.gillansoft.droidlight;
+package com.semiprotubesurfer.droidlight;
 
 import android.app.Activity;
 import android.hardware.Camera;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.semiprotubesurfer.droidlight.R;
 
 public class DroidLightActivity extends Activity {
 	private TextView mStatusText;
