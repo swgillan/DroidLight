@@ -8,8 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.semiprotubesurfer.droidlight.R;
-
 public class DroidLightActivity extends Activity {
 	private TextView mStatusText;
 	private ImageView mLight;
@@ -43,30 +41,80 @@ public class DroidLightActivity extends Activity {
 				}
 			}
 		});
+        /*
+         * Check the configuration state. This is done if the configuration
+         * of the device was changed (ie orientation change). In this event
+         * restart the application where it was left, if the light was on,
+         * turn it back on. The light asset and status text object will also need
+         * to be put to the proper state as well.
+         */
+        final Object mTag = (Object) getLastNonConfigurationInstance();
+        if (mTag != null) {
+        	mCamera = Camera.open();
+        	mCamera.startPreview();
+        	mCameraParameters = mCamera.getParameters();
+        	mLight.setTag(mTag);
+        	if (mTag.equals(getResources().getString(R.string.off_tag))) {
+        		mLight.setImageResource(R.drawable.lightbulb_off);
+				mStatusText.setText(R.string.on_text);
+				mCameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        	} else {
+        		mLight.setImageResource(R.drawable.lightbulb_on);
+				mStatusText.setText(R.string.off_text);
+				mCameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        	}
+        	mCamera.setParameters(mCameraParameters);
+        }
         
     }
     
     @Override
     protected void onResume() {
         super.onResume();
-        // Open the default i.e. the first rear facing camera.
-        mCamera = Camera.open();
-        mCamera.startPreview();
-        mCameraParameters = mCamera.getParameters();
-        mCameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        mCamera.setParameters(mCameraParameters);
+        /*
+         *  Open the default i.e. the first rear facing camera.
+         *  Do this if the application is starting up or coming back
+         *  from the background.
+         */
+        if (mCamera == null) {
+        	mCamera = Camera.open();
+        	mCamera.startPreview();
+        	mCameraParameters = mCamera.getParameters();
+        	mCameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        	mCamera.setParameters(mCameraParameters);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Because the Camera object is a shared resource, it's very
-        // important to release it when the activity is paused.
+        /* 
+         * Because the Camera object is a shared resource, it's very
+         * important to release it when the activity is paused.
+         * 
+         * When the application becomes paused, set the camera to the off
+         * state. If a configuration change is being done, it will be
+         * reset to the correct state.
+         */
+         
         if (mCamera != null) {
         	mCamera.stopPreview();
             mCamera.release();
             mCamera = null;
+            mLight.setImageResource(R.drawable.lightbulb_off);
+			mStatusText.setText(R.string.on_text);
         }
+    }
+    
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+    	/*
+    	 * When a configuration change is detected, to 
+    	 * restart in the correct state, save the tag
+    	 * that the light asset is set to. This will
+    	 * identify of the light was on or off at the time.
+    	 */
+		return mLight.getTag();
     }
 }
