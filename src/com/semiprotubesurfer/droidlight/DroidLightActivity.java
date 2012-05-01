@@ -1,20 +1,28 @@
 package com.semiprotubesurfer.droidlight;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DroidLightActivity extends Activity {
+public class DroidLightActivity extends Activity implements SurfaceHolder.Callback {
 	private TextView mStatusText;
 	private ImageView mLight;
+	private SurfaceView mSurfaceView;
+	private SurfaceHolder mSurfaceHolder;
+	
 	Camera mCamera;
 	private Camera.Parameters mCameraParameters;
     /** Called when the activity is first created. */
@@ -25,7 +33,12 @@ public class DroidLightActivity extends Activity {
         
         mStatusText = (TextView)findViewById(R.id.statusText);
         mLight = (ImageView)findViewById(R.id.light);
-        
+
+        mSurfaceView = (SurfaceView)findViewById(R.id.surface);
+        // Need to set up a surface view to use with the new camera api
+        mSurfaceHolder = mSurfaceView.getHolder();
+        mSurfaceHolder.addCallback(this);
+        mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mLight.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -55,7 +68,6 @@ public class DroidLightActivity extends Activity {
         final Object mTag = (Object) getLastNonConfigurationInstance();
         if (mTag != null) {
         	mCamera = Camera.open();
-        	mCamera.startPreview();
         	mCameraParameters = mCamera.getParameters();
         	mLight.setTag(mTag);
         	if (mTag.equals(getResources().getString(R.string.off_tag))) {
@@ -82,7 +94,6 @@ public class DroidLightActivity extends Activity {
          */
         if (mCamera == null) {
         	mCamera = Camera.open();
-        	mCamera.startPreview();
         	mCameraParameters = mCamera.getParameters();
         	mCameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         	mCamera.setParameters(mCameraParameters);
@@ -139,4 +150,28 @@ public class DroidLightActivity extends Activity {
             return super.onOptionsItemSelected(item);
     	}
     }
+
+	@Override
+	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// The Surface has been created, now tell the camera where to draw the preview.
+        try {
+            mCamera.setPreviewDisplay(holder);
+            mCamera.startPreview();
+        } catch (IOException e) {
+            Log.d("FOO", "Error setting camera preview: " + e.getMessage());
+        }
+		
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		
+	}
 }

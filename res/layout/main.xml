@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/main">
+        <SurfaceView android:id="@+id/surface"
+            android:layout_width="1dp"
+            android:layout_height="1dp"/>
         <ImageView android:src="@drawable/lightbulb_off" 
         android:layout_height="wrap_content" 
         android:layout_centerInParent="true" 
         android:layout_width="wrap_content" 
         android:id="@+id/light" 
-        android:tag="@string/off_tag"/>
+        android:tag="@string/off_tag"
+        android:contentDescription="@string/lighttext"/>
         
         <TextView android:layout_height="wrap_content"
         android:layout_width="wrap_content"  
